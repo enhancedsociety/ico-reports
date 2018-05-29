@@ -1,0 +1,35 @@
+language: python
+python: 3.5
+sudo: true
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+    - npm
+
+before_install:
+  - docker pull enhancedsociety/solsa
+  - npm install -g solhydra 
+
+install:
+  - git clone --recurse-submodules -q -b enhanced_mods https://github.com/enhancedsociety/ico.git
+
+before_script:
+  - function solsa () { docker run -it --rm -v $(pwd):/src:ro enhancedsociety/solsa $@ }
+
+script:
+  - mkdir solhydra-out
+  - cd ico
+  - for contract in $(ls contracts/**/*.sol); do echo $contract; solsa -a $contract; echo; done
+  - solhydra --contract-dir=./contracts --dep-dir . --dest-dir=../solhydra-out/
+
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: true
+  on:
+    branch: master
