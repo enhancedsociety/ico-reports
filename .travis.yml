@@ -12,6 +12,13 @@ addons:
 before_install:
   - docker pull enhancedsociety/solsa
   - npm install -g solhydra 
+  - docker pull rmi7/solhydra_solidity-coverage:1.0
+  - docker pull rmi7/solhydra_oyente:1.0
+  - docker pull rmi7/solhydra_solidity-analyzer:1.0
+  - docker pull rmi7/solhydra_mythril:1.0
+  - docker pull rmi7/solhydra_solhint:1.0
+  - docker pull rmi7/solhydra_solgraph:1.0
+  - docker pull rmi7/solhydra_solium:1.0
 
 install:
   - git clone --recurse-submodules -q -b enhanced_mods https://github.com/enhancedsociety/ico.git
@@ -20,7 +27,7 @@ script:
   - mkdir solhydra-out
   - cd ico
   - for contract in $(ls contracts/**/*.sol); do echo $contract; docker run -it --rm -v $(pwd):/src:ro enhancedsociety/solsa -a $contract; echo; done
-  - solhydra --contract-dir=./contracts --dep-dir . --dest-dir=../solhydra-out/
+  - travis_wait solhydra --contract-dir=./contracts --dep-dir . --dest-dir=../solhydra-out/
 
 
 deploy:
