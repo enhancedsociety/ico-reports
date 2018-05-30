@@ -24,7 +24,7 @@ LINKS=""
 
 for p in *.txt; do
   LINKS+="
-    <a href=\"${p}\">${p%.*}</a>"
+    <a href=\"${p}\">${p%.*}</a><br/>"
 done
 
 echo "${HEAD}${LINKS}${TAIL}"
