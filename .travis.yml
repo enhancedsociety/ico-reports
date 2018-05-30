@@ -27,7 +27,7 @@ script:
   - mkdir solhydra-out
   - cd ico
   - for contract in $(ls contracts/**/*.sol); do echo $contract; docker run -it --rm -v $(pwd):/src:ro enhancedsociety/solsa -a $contract; echo; done
-  - travis_wait solhydra --contract-dir=./contracts --dep-dir . --dest-dir=../solhydra-out/
+  - travis_wait 120 solhydra --contract-dir=./contracts --dep-dir . --dest-dir=../solhydra-out/
 
 
 deploy:
