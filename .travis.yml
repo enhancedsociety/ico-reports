@@ -27,7 +27,7 @@ script:
 #  - mkdir solhydra-out
   - mkdir solsa-out
   - cd ico
-  - for contract in $(ls **/*.sol); do echo $contract; docker run -it --rm -v $(pwd):/src:ro enhancedsociety/solsa -v -a $contract > ../solsa-out/${$(basename -- $contract)%.*}.txt; echo; done
+  - for contract in $(ls **/*.sol); do echo $contract; docker run -it --rm -v $(pwd):/src:ro enhancedsociety/solsa -v -a $contract > ../solsa-out/$(basename -- $contract).txt; echo; done
   - cd ../solsa-out
   - ../make_index.sh > index.html
 # solhydra can't seem to do a complete run on tokenmarketnet without crashing (it is a huge interconnected repo, though)
