@@ -24,17 +24,22 @@ install:
   - git clone --recurse-submodules -q -b enhanced_mods https://github.com/enhancedsociety/ico.git
 
 script:
-  - mkdir solhydra-out
+#  - mkdir solhydra-out
+  - mkdir solsa-out
   - cd ico
-  - for contract in $(ls contracts/**/*.sol); do echo $contract; docker run -it --rm -v $(pwd):/src:ro enhancedsociety/solsa -a $contract; echo; done
-  - travis_wait 120 solhydra --contract-dir=./contracts --dep-dir . --dest-dir=../solhydra-out/
+  - for contract in $(ls **/*.sol); do echo $contract; docker run -it --rm -v $(pwd):/src:ro enhancedsociety/solsa -v -a $contract > ../solsa-out/${$(basename -- $contract)%.*}.txt; echo; done
+  - cd ../solsa-out
+  - ../make_index.sh > index.html
+# solhydra can't seem to do a complete run on tokenmarketnet without crashing (it is a huge interconnected repo, though)
+#  - travis_wait 120 solhydra --contract-dir=./contracts --dep-dir . --dest-dir=../solhydra-out/
 
 
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
-  local-dir: solhydra-out
+#  local-dir: solhydra-out
+  local-dir: solsa-out
   on:
     branch: master
   verbose: true
