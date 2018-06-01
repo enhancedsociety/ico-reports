@@ -19,7 +19,9 @@ install:
 script:
   - mkdir solsa-out
   - cd ico
-  - for contract in $(ls **/*.sol); do echo $contract; solsa -o ../solsa-out/$(basename -- $contract).html -f $contract; echo; done
+#  - export CONTRACTS=$(ls **/*.sol)
+  - export CONTRACTS="contracts/Crowdsale.sol contracts/CrowdsaleBase.sol contracts/BurnableCrowdsaleToken.sol contracts/EthTranchePricing.sol contracts/AllocatedCrowdsale.sol contracts/NullFinalizeAgent.sol contracts/BonusFinalizationAgent.sol"
+  - for contract in $CONTRACTS; do echo $contract; solsa -o ../solsa-out/$(basename -- $contract).html -f $contract; echo; done
   - cd ../solsa-out
   - ../make_index.sh > index.html
 

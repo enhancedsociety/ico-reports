@@ -9,12 +9,13 @@ HEAD=$(cat <<-END
   </head>
   <body>
     <h1>Solsa reports</h1>
+    <ul>
 END
 )
 
 
 TAIL=$(cat <<-END
-
+    </ul>
   </body>
 </html>
 END
@@ -24,7 +25,7 @@ LINKS=""
 
 for p in *.sol.html; do
   LINKS+="
-    <a href=\"${p}\">${p%.*}</a><br/>"
+      <li><a href=\"${p}\">${p%.*}</a></li>"
 done
 
 echo "${HEAD}${LINKS}${TAIL}"
