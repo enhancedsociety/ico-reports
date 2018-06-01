@@ -22,7 +22,7 @@ END
 
 LINKS=""
 
-for p in *.txt; do
+for p in *.sol.html; do
   LINKS+="
     <a href=\"${p}\">${p%.*}</a><br/>"
 done

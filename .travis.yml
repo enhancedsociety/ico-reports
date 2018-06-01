@@ -7,38 +7,30 @@ services:
 addons:
   apt:
     packages:
-    - npm
+    - cargo
 
 before_install:
-  - docker pull enhancedsociety/solsa
-  - npm install -g solhydra 
-  - docker pull rmi7/solhydra_solidity-coverage:1.0
-  - docker pull rmi7/solhydra_oyente:1.0
-  - docker pull rmi7/solhydra_solidity-analyzer:1.0
-  - docker pull rmi7/solhydra_mythril:1.0
-  - docker pull rmi7/solhydra_solhint:1.0
-  - docker pull rmi7/solhydra_solgraph:1.0
-  - docker pull rmi7/solhydra_solium:1.0
+  - cargo install solsa
+  - docker pull enhancedsociety/solc
+  - docker pull enhancedsociety/solium
+  - docker pull enhancedsociety/oyente
+  - docker pull enhancedsociety/mythril
 
 install:
   - git clone --recurse-submodules -q -b enhanced_mods https://github.com/enhancedsociety/ico.git
 
 script:
-#  - mkdir solhydra-out
   - mkdir solsa-out
   - cd ico
-  - for contract in $(ls **/*.sol); do echo $contract; docker run -it --rm -v $(pwd):/src:ro enhancedsociety/solsa -v -a $contract > ../solsa-out/$(basename -- $contract).txt; echo; done
+  - for contract in $(ls **/*.sol); do echo $contract; solsa -o ../solsa-out/$(basename -- $contract).html -f $contract; echo; done
   - cd ../solsa-out
   - ../make_index.sh > index.html
-# solhydra can't seem to do a complete run on tokenmarketnet without crashing (it is a huge interconnected repo, though)
-#  - travis_wait 120 solhydra --contract-dir=./contracts --dep-dir . --dest-dir=../solhydra-out/
 
 
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
-#  local-dir: solhydra-out
   local-dir: solsa-out
   on:
     branch: master
