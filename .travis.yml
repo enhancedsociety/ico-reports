@@ -4,12 +4,9 @@ sudo: true
 services:
   - docker
 
-addons:
-  apt:
-    packages:
-    - cargo
-
 before_install:
+  - curl https://sh.rustup.rs -sSf | sh -s -- -y
+  - export PATH="$HOME"/.cargo/bin:$PATH
   - cargo install solsa
   - docker pull enhancedsociety/solc
   - docker pull enhancedsociety/solium
