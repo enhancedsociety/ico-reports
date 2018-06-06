@@ -16,8 +16,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    SOLSA_CMD = "/home/filipe/Development/eth-tooling/solsa/target/debug/solsa"
-    # SOLSA_CMD = "solsa"
+    SOLSA_CMD = "solsa"
 
     output_dir = os.path.abspath(args.output_dir)
     if not os.path.exists(output_dir):
@@ -68,7 +67,6 @@ if __name__ == '__main__':
         s = os.path.basename(contract_path)
         r_href = '{}.html'.format(s)
         label = os.path.splitext(s)[0]
-        print([s, label, r_href])
         return r'''
       <div class="card">
         <h3>{}</h3>

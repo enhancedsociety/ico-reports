@@ -21,9 +21,11 @@ before_install:
 
 install:
   - git clone --recurse-submodules -q -b enhanced_mods https://github.com/enhancedsociety/ico.git
+  - pip install -r requirements.txt
 
 script:
   - mkdir solsa-out
+  - cp .soliumrc.json .soliumignore ico/
   - ./run_report.py -o solsa-out ico/crowdsales/*.yml
 
 
