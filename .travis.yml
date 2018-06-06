@@ -13,7 +13,7 @@ cache:
 before_install:
   - curl https://sh.rustup.rs -sSf | sh -s -- -y
   - export PATH="$HOME"/.cargo/bin:$PATH
-  - cargo install solsa
+  - cargo install solsa --force
   - docker pull enhancedsociety/solc
   - docker pull enhancedsociety/solium
   - docker pull enhancedsociety/oyente
