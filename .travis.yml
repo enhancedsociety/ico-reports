@@ -26,7 +26,7 @@ install:
 script:
   - mkdir solsa-out
   - cp .soliumrc.json .soliumignore ico/
-  - ./run_report.py -o solsa-out ico/crowdsales/*.yml
+  - travis_wait ./run_report.py -o solsa-out ico/crowdsales/*.yml
 
 
 deploy:
