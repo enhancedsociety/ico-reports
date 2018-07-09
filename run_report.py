@@ -82,7 +82,12 @@ if __name__ == '__main__':
                     CONTRACT_CACHE[contract_file] = True
                     contract_filename = os.path.basename(contract_file)
                     # Gnosis + mythril = memory hike to infinity
-                    depth = 'shallow' if contract_filename == 'GnosisWallet.sol' else 'deepest'
+                    # Burnable + mythril = memory hike to mountains
+                    depth = 'deepest'
+                    if contract_filename == 'GnosisWallet.sol':
+                        depth= 'shallow'
+                    if contract_filename == 'BurnableCrowdsaleToken.sol':
+                        depth= 'deep'
                     shutil.copyfile(os.path.join(basepath, contract_file), os.path.join(
                         output_dir, contract_filename))
                     output_file = os.path.join(output_dir, '{}.{}'.format(
