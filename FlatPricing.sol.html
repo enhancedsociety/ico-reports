@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>contracts&#x2F;FlatPricing.sol</title>
+  </head>
+  <style>
+      .code-wrap {
+          border: 1px solid #00000080;
+          margin: 2rem;
+          padding: 1rem;
+      }
+      code, pre {
+          word-wrap: break-word;
+          white-space: pre-line;
+      }
+
+
+      main>section {
+          display: none;
+      }
+
+      main>section[id=summary], :target {
+        display: initial;
+      }
+
+      :target ~ section[id=summary] {
+          display: none;
+      }
+
+      body {
+          display: flex;
+          flex-direction: column;
+          height: 90vh;
+      }
+      
+      body>header {
+          margin-bottom: 1px;
+      }
+
+      body>main {
+          flex-grow: 1;
+          overflow-y: scroll;
+      }
+
+      nav ul {
+          display: flex;
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333;
+      }
+      
+      nav li:first-child{
+        margin-right: auto;
+      }
+      
+      nav li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+      }
+      
+      nav li a:hover {
+          background-color: #111;
+      }
+      nav li a:active {
+          background-color: #fff;
+          color: #000;
+      }
+  </style>
+  <body>
+  
+    <h1>Solsa Report for contracts&#x2F;FlatPricing.sol</h1>
+    <nav>
+        <ul>
+                <li><a href="#summary">summary</a></li>
+                
+                <li><a href="#source">source</a></li>
+                
+                <li><a href="#solc">solc</a></li>
+                <li><a href="#solium">solium</a></li>
+                <li><a href="#mythril">mythril</a></li>
+                <li><a href="#oyente">oyente</a></li>
+        </ul>
+    </nav>
+    <main>
+        
+        <section id="source">
+            <h2>Contract source code</h2>
+            <code>&#x2F;**
+ * This smart contract code is Copyright 2017 TokenMarket Ltd. For more information see https:&#x2F;&#x2F;tokenmarket.net
+ *
+ * Licensed under the Apache License, version 2.0: https:&#x2F;&#x2F;github.com&#x2F;TokenMarketNet&#x2F;ico&#x2F;blob&#x2F;master&#x2F;LICENSE.txt
+ *&#x2F;
+
+pragma solidity ^0.4.12;
+
+import &quot;.&#x2F;PricingStrategy.sol&quot;;
+import &quot;.&#x2F;SafeMathLib.sol&quot;;
+
+&#x2F;**
+ * Fixed crowdsale pricing - everybody gets the same price.
+ *&#x2F;
+contract FlatPricing is PricingStrategy {
+
+  using SafeMathLib for uint;
+
+  &#x2F;* How many weis one token costs *&#x2F;
+  uint public oneTokenInWei;
+
+  function FlatPricing(uint _oneTokenInWei) {
+    require(_oneTokenInWei &gt; 0);
+    oneTokenInWei = _oneTokenInWei;
+  }
+
+  &#x2F;**
+   * Calculate the current price for buy in amount.
+   *
+   *&#x2F;
+  function calculatePrice(uint value, uint weiRaised, uint tokensSold, address msgSender, uint decimals) public constant returns (uint) {
+    uint multiplier = 10 ** decimals;
+    return value.times(multiplier) &#x2F; oneTokenInWei;
+  }
+
+}
+</code>
+        </section>
+        
+        <section id="solc">
+            <h2>solc</h2>
+            
+                <p>Solc version: 0.4.24+commit.e67f0147.Linux.g++</p>
+                
+                    <section>
+                        <h4>Contract contracts&#x2F;FlatPricing.sol:FlatPricing</h4>
+                        <h5>ABI</h5>
+                        <div class="code-wrap">
+                            <code>[{&quot;constant&quot;:true,&quot;inputs&quot;:[],&quot;name&quot;:&quot;isPricingStrategy&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;bool&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;constant&quot;:true,&quot;inputs&quot;:[{&quot;name&quot;:&quot;value&quot;,&quot;type&quot;:&quot;uint256&quot;},{&quot;name&quot;:&quot;weiRaised&quot;,&quot;type&quot;:&quot;uint256&quot;},{&quot;name&quot;:&quot;tokensSold&quot;,&quot;type&quot;:&quot;uint256&quot;},{&quot;name&quot;:&quot;msgSender&quot;,&quot;type&quot;:&quot;address&quot;},{&quot;name&quot;:&quot;decimals&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;name&quot;:&quot;calculatePrice&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;constant&quot;:true,&quot;inputs&quot;:[],&quot;name&quot;:&quot;oneTokenInWei&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;constant&quot;:true,&quot;inputs&quot;:[{&quot;name&quot;:&quot;crowdsale&quot;,&quot;type&quot;:&quot;address&quot;}],&quot;name&quot;:&quot;isSane&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;bool&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;constant&quot;:true,&quot;inputs&quot;:[{&quot;name&quot;:&quot;purchaser&quot;,&quot;type&quot;:&quot;address&quot;}],&quot;name&quot;:&quot;isPresalePurchase&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;bool&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;inputs&quot;:[{&quot;name&quot;:&quot;_oneTokenInWei&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;nonpayable&quot;,&quot;type&quot;:&quot;constructor&quot;}]</code>
+                        </div>
+                        <h5>BIN</h5>
+                        <div class="code-wrap">
+                            <code>608060405234801561001057600080fd5b5060405160208061037c8339810180604052810190808051906020019092919050505060008111151561004257600080fd5b8060008190555050610323806100596000396000f30060806040526004361061006d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806304bbc2551461007257806318a4155e146100a157806384e3ac94146101205780638e7682881461014b578063f14ae17d146101a6575b600080fd5b34801561007e57600080fd5b50610087610201565b604051808215151515815260200191505060405180910390f35b3480156100ad57600080fd5b5061010a600480360381019080803590602001909291908035906020019092919080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff1690602001909291908035906020019092919050505061020a565b6040518082815260200191505060405180910390f35b34801561012c57600080fd5b506101356102dc565b6040518082815260200191505060405180910390f35b34801561015757600080fd5b5061018c600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102e2565b604051808215151515815260200191505060405180910390f35b3480156101b257600080fd5b506101e7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102ed565b604051808215151515815260200191505060405180910390f35b60006001905090565b60008082600a0a90506000548773__contracts&#x2F;SafeMathLib.sol:SafeMathLi__631d3b9edf9091846040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018281526020019250505060206040518083038186803b15801561028b57600080fd5b505af415801561029f573d6000803e3d6000fd5b505050506040513d60208110156102b557600080fd5b81019080805190602001909291905050508115156102cf57fe5b0491505095945050505050565b60005481565b600060019050919050565b60008090509190505600a165627a7a723058202b140e65850008651e3d1e09fedd05624f30f58ff9814e1fc7fbdf3c993da7da0029</code>
+                        </div>
+                    </section>
+                
+                    <section>
+                        <h4>Contract contracts&#x2F;PricingStrategy.sol:PricingStrategy</h4>
+                        <h5>ABI</h5>
+                        <div class="code-wrap">
+                            <code>[{&quot;constant&quot;:true,&quot;inputs&quot;:[],&quot;name&quot;:&quot;isPricingStrategy&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;bool&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;constant&quot;:true,&quot;inputs&quot;:[{&quot;name&quot;:&quot;value&quot;,&quot;type&quot;:&quot;uint256&quot;},{&quot;name&quot;:&quot;weiRaised&quot;,&quot;type&quot;:&quot;uint256&quot;},{&quot;name&quot;:&quot;tokensSold&quot;,&quot;type&quot;:&quot;uint256&quot;},{&quot;name&quot;:&quot;msgSender&quot;,&quot;type&quot;:&quot;address&quot;},{&quot;name&quot;:&quot;decimals&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;name&quot;:&quot;calculatePrice&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;tokenAmount&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;constant&quot;:true,&quot;inputs&quot;:[{&quot;name&quot;:&quot;crowdsale&quot;,&quot;type&quot;:&quot;address&quot;}],&quot;name&quot;:&quot;isSane&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;bool&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;constant&quot;:true,&quot;inputs&quot;:[{&quot;name&quot;:&quot;purchaser&quot;,&quot;type&quot;:&quot;address&quot;}],&quot;name&quot;:&quot;isPresalePurchase&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;bool&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;}]</code>
+                        </div>
+                        <h5>BIN</h5>
+                        <div class="code-wrap">
+                            <code></code>
+                        </div>
+                    </section>
+                
+                    <section>
+                        <h4>Contract contracts&#x2F;SafeMathLib.sol:SafeMathLib</h4>
+                        <h5>ABI</h5>
+                        <div class="code-wrap">
+                            <code>[{&quot;constant&quot;:false,&quot;inputs&quot;:[{&quot;name&quot;:&quot;a&quot;,&quot;type&quot;:&quot;uint256&quot;},{&quot;name&quot;:&quot;b&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;name&quot;:&quot;times&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;nonpayable&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;constant&quot;:false,&quot;inputs&quot;:[{&quot;name&quot;:&quot;a&quot;,&quot;type&quot;:&quot;uint256&quot;},{&quot;name&quot;:&quot;b&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;name&quot;:&quot;plus&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;nonpayable&quot;,&quot;type&quot;:&quot;function&quot;},{&quot;constant&quot;:false,&quot;inputs&quot;:[{&quot;name&quot;:&quot;a&quot;,&quot;type&quot;:&quot;uint256&quot;},{&quot;name&quot;:&quot;b&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;name&quot;:&quot;minus&quot;,&quot;outputs&quot;:[{&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;uint256&quot;}],&quot;payable&quot;:false,&quot;stateMutability&quot;:&quot;nonpayable&quot;,&quot;type&quot;:&quot;function&quot;}]</code>
+                        </div>
+                        <h5>BIN</h5>
+                        <div class="code-wrap">
+                            <code>6101ea610030600b82828239805160001a6073146000811461002057610022565bfe5b5030600052607381538281f300730000000000000000000000000000000000000000301460806040526004361061006e576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680631d3b9edf1461007357806366098d4f146100be578063f4f3bdc114610109575b600080fd5b81801561007f57600080fd5b506100a86004803603810190808035906020019092919080359060200190929190505050610154565b6040518082815260200191505060405180910390f35b8180156100ca57600080fd5b506100f36004803603810190808035906020019092919080359060200190929190505050610187565b6040518082815260200191505060405180910390f35b81801561011557600080fd5b5061013e60048036038101908080359060200190929190803590602001909291905050506101a5565b6040518082815260200191505060405180910390f35b60008082840290506000841480610175575082848281151561017257fe5b04145b151561017d57fe5b8091505092915050565b600080828401905083811015151561019b57fe5b8091505092915050565b60008282111515156101b357fe5b8183039050929150505600a165627a7a723058205afbad6a5ca27406a74a267540adde5fd023afd8143e756ca4af8098fa06afe00029</code>
+                        </div>
+                    </section>
+                
+            
+        </section>
+        <section id="solium">
+            <header>
+                <h2>Solium</h2>
+            </header>
+            
+                
+                    <ul>
+                    
+                        <li>
+                            <dl>
+                                <dt>contracts&#x2F;FlatPricing.sol</dt>
+                                <dd>Line-Column: 22-2</dd>
+                                <dd>Type:  error</dd>
+                                <dd>Message:  No visibility specified explicitly for FlatPricing function. [security&#x2F;enforce-explicit-visibility]</dd>
+                            </dl>
+                        </li>
+                    
+                        <li>
+                            <dl>
+                                <dt>contracts&#x2F;FlatPricing.sol</dt>
+                                <dd>Line-Column: 23-4</dd>
+                                <dd>Type:  warning</dd>
+                                <dd>Message:  Provide an error message for require(). [error-reason]</dd>
+                            </dl>
+                        </li>
+                    
+                        <li>
+                            <dl>
+                                <dt>contracts&#x2F;FlatPricing.sol</dt>
+                                <dd>Line-Column: 31-112</dd>
+                                <dd>Type:  warning</dd>
+                                <dd>Message:  Use &#x27;view&#x27; instead of deprecated &#x27;constant&#x27;. [no-constant]</dd>
+                            </dl>
+                        </li>
+                    
+                    </ul>
+                
+            
+        </section>
+        <section id="mythril">
+                <header>
+                    <h2>Mythril</h2>
+                </header>
+                
+                    
+                        
+                        <h3>Issues found</h3>
+                            
+                                <section>
+                                    <header>
+                                        <h4>Exception state (Informational) </h4>
+                                    </header>
+                                    <p>A reachable exception (opcode 0xfe) has been detected. This can be caused by type errors, division by zero, out-of-bounds array access, or assert violations. This is acceptable in most situations. Note however that &#96;assert()&#96; should only be used to check invariants. Use &#96;require()&#96; for regular input checking. </p>
+                                    <p>contracts&#x2F;FlatPricing.sol:33</p>
+                                    <div class="code-wrap">
+                                        <code>The exception is triggered under the following conditions:
+
+returndatasize: 0x20
+retval_654: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+extcodesize: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+calldata_SafeMathLib_0: 0x18a4155e00000000000000000000000000000000000000000000000000000000
+calldatasize_SafeMathLib: 0x4
+storage_0: 0x0
+callvalue: 0x0
+</code>
+                                    </div>
+                                </section>                
+                            
+                        
+                    
+                
+        </section>
+        <section id="oyente">
+                <header>
+                    <h2>Oyente</h2>
+                </header>
+                
+                <dl>
+                
+                    <dt>contracts&#x2F;FlatPricing.sol</dt>
+                    
+                        <dd>
+                            <dl>
+                                <dt>FlatPricing</dt>
+                                <dd>EVM Coverage: 89.0% </dd>
+                                <dd>Integer Underflow: false</dd>
+                                <dd>Integer Overflow: false</dd>
+                                <dd>Callstack Depth Attack Vulnerability: false</dd>
+                                <dd>Transaction-Ordering Dependence (TOD): false</dd>
+                                <dd>Timestamp Dependency: false</dd>
+                                <dd>Re-Entrancy Vulnerability: false</dd>
+                                <dd>Assertion failure: false</dd>
+                                <dd>Parity MultiSig Bug 2: false</dd>
+                            </dl>
+                        </dd>
+                    
+                
+                    <dt>contracts&#x2F;SafeMathLib.sol</dt>
+                    
+                        <dd>
+                            <dl>
+                                <dt>SafeMathLib</dt>
+                                <dd>EVM Coverage: 99.1% </dd>
+                                <dd>Integer Underflow: false</dd>
+                                <dd>Integer Overflow: false</dd>
+                                <dd>Callstack Depth Attack Vulnerability: false</dd>
+                                <dd>Transaction-Ordering Dependence (TOD): false</dd>
+                                <dd>Timestamp Dependency: false</dd>
+                                <dd>Re-Entrancy Vulnerability: false</dd>
+                                <dd>Assertion failure: true</dd>
+                                <dd>Parity MultiSig Bug 2: false</dd>
+                            </dl>
+                        </dd>
+                    
+                
+                </dl>
+                
+        </section>
+        <section id="summary">
+            <header>
+                <h1>Summary of analysis</h1>
+            </header>
+            <dl>
+                <dt>solc</dt>
+                
+                    <dd>OK</dd>
+                
+                <dt>solium</dt>
+                
+                    
+                        <dd>Some issues found</dd>
+                    
+                
+                <dt>mythril</dt>
+                
+                    
+                        <dd>Some issues found</dd>
+                    
+                
+                <dt>oyente</dt>
+                
+                    
+                    <dd>Some issues found</dd>
+                    
+                
+            </dl>
+        </section>
+    </main>
+  </body>
+</html>
